@@ -1,4 +1,6 @@
 ﻿
+using RealTimeWebChat.Domain;
+
 public class ChatParticipant
 {
     public int UserId { get; set; }
@@ -7,5 +9,5 @@ public class ChatParticipant
     public int ChatId { get; set; }
     public Chat Chat { get; set; }
 
-    public bool IsAdmin { get; set; }
+    public Role Role { get; set; }
 }

@@ -1,6 +1,9 @@
 ﻿namespace RealTimeWebChat.Domain
 {
-    public class Role
+    public enum Role
     {
+        member = 0,
+        Admin = 1,
+        SuperAdmin = 2
     }
 }

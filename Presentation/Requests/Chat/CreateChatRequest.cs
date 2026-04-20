@@ -1,6 +1,8 @@
 ﻿namespace RealTimeWebChat.Presentation.Requests.Chat
 {
-    public class AddChatRequest
+    public class CreateChatRequest
     {
+        public string Name { get; set; }    
+        public int CreatorId { get; set; }
     }
 }
