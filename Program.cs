@@ -1,6 +1,6 @@
 using RealTimeWebChat.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using RealTimeWebChat.Application.Services.UserLayer;
+using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RealTimeWebChat.Application.Services.UserLayer;
+using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Infrastructure.Persistence;
 
 namespace RealTimeWebChat.Infrastructure.Repositories

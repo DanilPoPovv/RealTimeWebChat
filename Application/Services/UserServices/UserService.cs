@@ -3,7 +3,7 @@ using RealTimeWebChat.Presentation.Requests;
 using RealTimeWebChat.Presentation.Requests.User;
 using RealTimeWebChat.Presentation.Responses.User;
 
-namespace RealTimeWebChat.Application.Services.UserLayer
+namespace RealTimeWebChat.Application.Services.UserServices
 {
     public class UserService : IUserService
     {

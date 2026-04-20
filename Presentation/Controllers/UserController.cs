@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RealTimeWebChat.Application.Services.UserLayer;
+using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Presentation.Requests;
 using RealTimeWebChat.Presentation.Requests.User;
 

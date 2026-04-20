@@ -1,5 +1,5 @@
 ﻿
-namespace RealTimeWebChat.Application.Services.UserLayer
+namespace RealTimeWebChat.Application.Services.UserServices
 {
     public interface IUserRepository
     {
