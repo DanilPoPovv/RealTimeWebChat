@@ -1,6 +1,8 @@
-﻿namespace RealTimeWebChat.Presentation.Response.User
+﻿namespace RealTimeWebChat.Presentation.Responses.User
 {
-    public class DeleteUserRequest
+    public class DeleteUserResponse
     {
+        public bool Success { get; set; }
+        public string Message { get; set; }
     }
 }

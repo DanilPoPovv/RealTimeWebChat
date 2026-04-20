@@ -12,13 +12,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.26" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Presentation\Controllers\" />
     <Folder Include="Presentation\Sockets\" />
-    <Folder Include="Application\" />
     <Folder Include="Presentation\" />
   </ItemGroup>
 
