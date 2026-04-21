@@ -24,5 +24,10 @@ namespace RealTimeWebChat.Infrastructure.Repositories
         {
             return await dbContext.Chats.FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task UpdateAsync()
+        {
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

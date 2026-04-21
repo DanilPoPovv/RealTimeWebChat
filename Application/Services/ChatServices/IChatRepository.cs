@@ -5,5 +5,6 @@
         public Task AddChatAsync(Chat chat);
         public Task DeleteChatAsync(Chat chat);
         public Task<Chat> GetChatByIdAsync(int id);
+        public Task UpdateAsync();
     }
 }

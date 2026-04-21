@@ -2,7 +2,7 @@
 {
     public class UpdateChatRequest
     {
-        public int ChatId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

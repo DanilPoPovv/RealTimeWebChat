@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
+using RealTimeWebChat.Application.Services.MessageService;
+using RealTimeWebChat.Application.Services.ChatServices;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -15,7 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
