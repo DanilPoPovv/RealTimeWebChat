@@ -4,6 +4,6 @@ namespace RealTimeWebChat.Infrastructure.Repositories
 {
     public interface IChatParticipantRepository
     {
-        public Task<Role> GetRoleAsync(int chatId, int userId);
+        public Task<ChatParticipant> GetParticipantAsync(int chatId, int userId);
     }
 }

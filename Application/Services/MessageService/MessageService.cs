@@ -23,14 +23,14 @@ namespace RealTimeWebChat.Application.Services.MessageService
         {
             this.messageRepository = messageRepository;
             this.chatRepository = chatRepository;
-            this.chatParticipant = chatParticipant;
+            this.chatParticipantRepository = chatParticipant;
             this.userRepository = userRepository;
         }
         public async Task DeleteMessageAsync(DeleteMessageRequest request)
         {
             var message = await messageRepository.GetMessageAsync(request.MessageId);
             var user = await userRepository.GetByIdAsync(request.UserId);
-            var participant = await 
+            var participant = await chatParticipantRepository.GetParticipantAsync(message.Id, user.Id);
             if (message == null)
                 throw new Exception("Message not found");
             if (user == null)
@@ -42,11 +42,11 @@ namespace RealTimeWebChat.Application.Services.MessageService
             if (message.ChatId != request.ChatId)
                 throw new Exception("Message does not belong to this chat");
 
-            if (userRole == null)
+            if (participant == null)
                 throw new Exception("User is not a participant of the chat");
 
             var isOwner = request.UserId == message.UserId;
-            var isAdmin = userRole == Role.Admin || userRole == Role.SuperAdmin;
+            var isAdmin = participant.Role == Role.Admin || participant.Role == Role.SuperAdmin;
 
             if (!isOwner && !isAdmin)
                 throw new Exception("You can't delete other user's message");
@@ -76,10 +76,14 @@ namespace RealTimeWebChat.Application.Services.MessageService
         {
             var user = await userRepository.GetByIdAsync(request.SenderId);
             var chat = await chatRepository.GetChatByIdAsync(request.ChatId);
+       
+            var participant = await chatParticipantRepository.GetParticipantAsync(user.Id, chat.Id);
             if (user == null)
                 throw new Exception("User not found");
             if (chat == null)
                 throw new Exception("Chat not found");
+            if (participant == null)
+                throw new Exception("User not a participant of this chat");
             var message = new Message()
             {
                 Text = request.Text,

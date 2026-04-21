@@ -11,12 +11,10 @@ namespace RealTimeWebChat.Infrastructure.Repositories
         {
             this.dbContext = dbContext;
         }
-        public async Task<Role> GetRoleAsync(int chatId, int userId)
+        public async Task<ChatParticipant> GetParticipantAsync(int chatId, int userId)
         {
-            return await dbContext.Participants.
-                Where(x => x.ChatId == chatId && x.UserId == userId).
-                Select(x => x.Role)
-                .FirstOrDefaultAsync();
+            return await dbContext.Participants
+                .FirstOrDefaultAsync(x => x.ChatId == chatId && x.UserId == userId);       
         }
     }
 }
