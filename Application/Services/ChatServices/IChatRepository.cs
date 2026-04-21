@@ -1,4 +1,6 @@
-﻿namespace RealTimeWebChat.Application.Services.ChatServices
+﻿using RealTimeWebChat.Domain;
+
+namespace RealTimeWebChat.Application.Services.ChatServices
 {
     public interface IChatRepository
     {

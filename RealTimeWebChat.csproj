@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Presentation\Controllers\" />
     <Folder Include="Presentation\Sockets\" />
   </ItemGroup>
 
