@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RealTimeWebChat.Application.Services.Participant;
 using RealTimeWebChat.Domain;
 using RealTimeWebChat.Infrastructure.Persistence;
 
