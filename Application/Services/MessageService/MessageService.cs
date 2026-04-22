@@ -77,11 +77,11 @@ namespace RealTimeWebChat.Application.Services.MessageService
             var user = await userRepository.GetByIdAsync(request.SenderId);
             var chat = await chatRepository.GetChatByIdAsync(request.ChatId);
        
-            var participant = await chatParticipantRepository.GetParticipantAsync(user.Id, chat.Id);
             if (user == null)
                 throw new Exception("User not found");
             if (chat == null)
                 throw new Exception("Chat not found");
+            var participant = await chatParticipantRepository.GetParticipantAsync(user.Id, chat.Id);
             if (participant == null)
                 throw new Exception("User not a participant of this chat");
             var message = new Message()
