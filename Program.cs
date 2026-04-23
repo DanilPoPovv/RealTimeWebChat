@@ -5,6 +5,8 @@ using RealTimeWebChat.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using RealTimeWebChat.Application.Services.MessageService;
 using RealTimeWebChat.Application.Services.ChatServices;
+using RealTimeWebChat.Infrastructure.Extensions;
+using RealTimeWebChat.Application.Services.AuthServices;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -25,6 +27,9 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IChatParticipantRepository, ChatParticipantRepository>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.AddJwtAuth();
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
@@ -35,7 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -35,12 +35,16 @@ namespace RealTimeWebChat.Infrastructure.Persistence
                 .HasOne(x => x.User)
                 .WithMany()
                 .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Restrict); 
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Message>()
                 .HasOne(x => x.Chat)
                 .WithMany(x => x.Messages)
                 .HasForeignKey(x => x.ChatId);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
         }
     }
 }
