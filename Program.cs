@@ -7,6 +7,7 @@ using RealTimeWebChat.Application.Services.MessageService;
 using RealTimeWebChat.Application.Services.ChatServices;
 using RealTimeWebChat.Infrastructure.Extensions;
 using RealTimeWebChat.Application.Services.AuthServices;
+using RealTimeWebChat.Application.Services.Participant;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,7 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IParticipantRepository, ParticipantRepository>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-
+builder.Services.AddScoped<IParticipantService, ParticipantService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.AddJwtAuth();

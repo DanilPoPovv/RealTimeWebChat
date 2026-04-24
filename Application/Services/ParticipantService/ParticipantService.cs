@@ -2,6 +2,8 @@
 using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Domain;
 using RealTimeWebChat.Infrastructure.Repositories;
+using RealTimeWebChat.Presentation.Response.Participant;
+using System;
 
 namespace RealTimeWebChat.Application.Services.Participant
 {
@@ -20,7 +22,7 @@ namespace RealTimeWebChat.Application.Services.Participant
             this.participantRepository = participantRepository;
             this.userRepository = userRepository;
         }
-        public async Task JoinChatAsync(int userId, int chatId)
+        public async Task<UserJoinedChatDto> JoinChatAsync(int userId, int chatId)
         {
             var user = await userRepository.GetByIdAsync(userId);
             if (user == null)
@@ -38,14 +40,24 @@ namespace RealTimeWebChat.Application.Services.Participant
                 Role = Role.Member
             };
             await participantRepository.AddParticipantAsync(participant);
+            return new UserJoinedChatDto(
+                user.Name,
+                user.Id,
+                chat.Id
+            );
         }
 
-        public async Task LeaveChatAsync(int userId, int chatId)
+        public async Task<UserLeftChatDto> LeaveChatAsync(int userId, int chatId)
         {
+            var user = await userRepository.GetByIdAsync(userId);
             var participant = await participantRepository.GetParticipantAsync(chatId, userId);
             if (participant == null)
                 throw new Exception("user is not a participant of this chat");
             await participantRepository.DeleteParticipantAsync(participant);
+            return new UserLeftChatDto(
+                                        user.Name,
+                                        user.Id,
+                                        chatId);
         }
     }
 }
