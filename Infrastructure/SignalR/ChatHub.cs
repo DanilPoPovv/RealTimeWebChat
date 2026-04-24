@@ -1,6 +1,17 @@
-﻿namespace RealTimeWebChat.Infrastructure.SignalR
+﻿using Microsoft.AspNetCore.SignalR;
+
+namespace RealTimeWebChat.Infrastructure.SignalR
 {
-    public class ChatHub
+    public class ChatHub : Hub
     {
+        public async Task JoinChat(int chatId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
+        }
+
+        public async Task LeaveChat(int chatId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId.ToString());
+        }
     }
 }
