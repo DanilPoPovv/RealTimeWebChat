@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
+﻿using RealTimeWebChat.Presentation.Requests.Login;
 
 namespace RealTimeWebChat.Application.Services.AuthService
 {

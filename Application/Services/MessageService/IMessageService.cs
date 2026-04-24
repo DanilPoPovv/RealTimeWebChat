@@ -1,13 +1,13 @@
 ﻿using RealTimeWebChat.Presentation.Requests.Message;
 using RealTimeWebChat.Presentation.Response.Message;
 
-namespace RealTimeWebChat.Application.Services.MessageService
+public interface IMessageService
 {
-    public interface IMessageService
-    {
-        public Task<MessageDto> SendMessageAsync(SendMessageRequest request);
-        public Task UpdateMessageAsync(UpdateMessageRequest request);
-        public Task DeleteMessageAsync(DeleteMessageRequest request);
-        public Task<List<MessageDto>> GetLastChatMessagesAsync(int chatId, int messageCount, int pageCount);
-    }
+    Task<MessageDto> SendMessageAsync(int userId, SendMessageRequest request);
+
+    Task UpdateMessageAsync(int userId, UpdateMessageRequest request);
+
+    Task DeleteMessageAsync(int userId, DeleteMessageRequest request);
+
+    Task<List<MessageDto>> GetLastChatMessagesAsync(int userId, int chatId, int messageCount, int pageCount);
 }
