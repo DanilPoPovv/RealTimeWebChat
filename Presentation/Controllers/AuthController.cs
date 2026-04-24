@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
 using RealTimeWebChat.Application.Services.JwtService;
 using RealTimeWebChat.Application.Services.UserServices;
 
@@ -31,3 +32,27 @@ namespace RealTimeWebChat.Presentation.Controllers
         }
     }
 }
+=======
+using RealTimeWebChat.Application.Services.AuthServices;
+using RealTimeWebChat.Presentation.Requests.Login;
+
+[ApiController]
+[Route("api/auth")]
+public class AuthController : ControllerBase
+{
+    private readonly IAuthService _authService;
+
+    public AuthController(IAuthService authService)
+    {
+        _authService = authService;
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        var token = await _authService.LoginAsync(request);
+
+        return Ok(new { token });
+    }
+}
+>>>>>>> cb2d70e82eb25df5a788c33b1f2258da0e0721d6

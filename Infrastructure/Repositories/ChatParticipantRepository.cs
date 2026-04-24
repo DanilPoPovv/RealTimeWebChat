@@ -5,7 +5,7 @@ using RealTimeWebChat.Infrastructure.Persistence;
 
 namespace RealTimeWebChat.Infrastructure.Repositories
 {
-    public class ChatParticipantRepository : IChatParticipantRepository
+    public class ChatParticipantRepository : IParticipantRepository
     {
         private readonly AppDbContext dbContext;
         public ChatParticipantRepository(AppDbContext dbContext)

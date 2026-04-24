@@ -1,8 +1,7 @@
-﻿using Azure.Core;
-using RealTimeWebChat.Application.Services.ChatServices;
-using RealTimeWebChat.Application.Services.Participant;
+﻿using RealTimeWebChat.Application.Services.ChatServices;
 using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Domain;
+using RealTimeWebChat.Infrastructure.Repositories;
 using RealTimeWebChat.Presentation.Requests.Message;
 using RealTimeWebChat.Presentation.Response.Message;
 using RealTimeWebChat.Presentation.Response.User;

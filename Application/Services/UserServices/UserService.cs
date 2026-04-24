@@ -16,6 +16,10 @@ namespace RealTimeWebChat.Application.Services.UserServices
         }
         public async Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request)
         {
+            bool isUsernameAlreadyTaken = await userRepository.GetByNameAsync(request.Name) != null;
+            if (isUsernameAlreadyTaken)
+                throw new Exception("Username is already taken");
+            
             var user = new User()
             {
                 Name = request.Name
