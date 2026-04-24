@@ -77,14 +77,14 @@ public class ChatService : IChatService
         if (participant == null)
             throw new Exception("Access denied");
 
-        List<MessageDto> messages = null;
+        List<MessageReceivedEventDto> messages = null;
 
         if (request.LastMessages != null)
         {
             var dbMessages = await messageRepository
                 .GetLastChatMessagesAsync(chat.Id, request.LastMessages.Value);
 
-            messages = dbMessages.Select(m => new MessageDto
+            messages = dbMessages.Select(m => new MessageReceivedEventDto
             {
                 Id = m.Id,
                 Text = m.Text,

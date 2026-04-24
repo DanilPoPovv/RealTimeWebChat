@@ -6,6 +6,6 @@ namespace RealTimeWebChat.Presentation.Response.Chat
     {
         public int Id{get; set;}
         public string Name{get; set;}
-        public List<MessageDto>? Messages { get; set; }
+        public List<MessageReceivedEventDto>? Messages { get; set; }
     } 
 }

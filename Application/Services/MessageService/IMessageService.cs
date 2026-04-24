@@ -3,11 +3,11 @@ using RealTimeWebChat.Presentation.Response.Message;
 
 public interface IMessageService
 {
-    Task<MessageDto> SendMessageAsync(int userId, SendMessageRequest request);
+    Task<MessageReceivedEventDto> SendMessageAsync(int userId, SendMessageRequest request);
 
-    Task UpdateMessageAsync(int userId, UpdateMessageRequest request);
+    Task<MessageUpdateEventDto> UpdateMessageAsync(int userId, UpdateMessageRequest request);
 
-    Task DeleteMessageAsync(int userId, DeleteMessageRequest request);
+    Task<MessageDeleteEventDto> DeleteMessageAsync(int userId, DeleteMessageRequest request);
 
-    Task<List<MessageDto>> GetLastChatMessagesAsync(int userId, int chatId, int messageCount, int pageCount);
+    Task<List<MessageReceivedEventDto>> GetLastChatMessagesAsync(int userId, int chatId, int messageCount, int pageCount);
 }

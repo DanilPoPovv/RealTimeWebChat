@@ -26,7 +26,7 @@ public class MessageService : IMessageService
         this.userRepository = userRepository;
     }
 
-    public async Task<MessageDto> SendMessageAsync(int userId, SendMessageRequest request)
+    public async Task<MessageReceivedEventDto> SendMessageAsync(int userId, SendMessageRequest request)
     {
         var chat = await chatRepository.GetChatByIdAsync(request.ChatId);
         if (chat == null)
@@ -48,11 +48,12 @@ public class MessageService : IMessageService
 
         await messageRepository.AddMessageAsync(message);
 
-        return new MessageDto
+        return new MessageReceivedEventDto
         {
             Id = message.Id,
             Text = message.Text,
             CreatedAt = message.CreatedAt,
+            ChatId = message.ChatId,
             User = new UserDto
             {
                 Id = user.Id,
@@ -61,7 +62,7 @@ public class MessageService : IMessageService
         };
     }
 
-    public async Task DeleteMessageAsync(int userId, DeleteMessageRequest request)
+    public async Task<MessageDeleteEventDto> DeleteMessageAsync(int userId, DeleteMessageRequest request)
     {
         var message = await messageRepository.GetMessageAsync(request.MessageId);
 
@@ -83,9 +84,12 @@ public class MessageService : IMessageService
             throw new Exception("No permission");
 
         await messageRepository.DeleteMessageAsync(message);
+        return new MessageDeleteEventDto(
+            message.ChatId,
+            message.Id);
     }
 
-    public async Task UpdateMessageAsync(int userId, UpdateMessageRequest request)
+    public async Task<MessageUpdateEventDto> UpdateMessageAsync(int userId, UpdateMessageRequest request)
     {
         var message = await messageRepository.GetMessageAsync(request.MessageId);
 
@@ -99,9 +103,14 @@ public class MessageService : IMessageService
             message.Text = request.Text;
 
         await messageRepository.UpdateMessageAsync();
+        return new MessageUpdateEventDto(
+            message.Text,
+            message.Id,
+            message.ChatId);
+
     }
 
-    public async Task<List<MessageDto>> GetLastChatMessagesAsync(
+    public async Task<List<MessageReceivedEventDto>> GetLastChatMessagesAsync(
         int userId,
         int chatId,
         int messageCount,
@@ -115,11 +124,12 @@ public class MessageService : IMessageService
         var messages = await messageRepository
             .GetLastChatMessagesAsync(chatId, messageCount, pageCount);
 
-        return messages.Select(m => new MessageDto
+        return messages.Select(m => new MessageReceivedEventDto
         {
             Id = m.Id,
             Text = m.Text,
             CreatedAt = m.CreatedAt,
+            ChatId = m.ChatId,
             User = new UserDto
             {
                 Id = m.User.Id,
