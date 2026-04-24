@@ -1,39 +1,48 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using RealTimeWebChat.Application.Services.Participant;
+using RealTimeWebChat.Infrastructure.SignalR;
 using System.Security.Claims;
 
-namespace RealTimeWebChat.Presentation.Controllers
+[ApiController]
+[Route("api/participants")]
+[Authorize]
+public class ParticipantController : ControllerBase
 {
-    [ApiController]
-    [Route("api/participants")]
-    [Authorize]
-    public class ParticipantController : ControllerBase
+    private readonly IParticipantService participantService;
+    private readonly IHubContext<ChatHub> hubContext;
+
+    public ParticipantController(
+        IParticipantService participantService,
+        IHubContext<ChatHub> hubContext)
     {
-        private readonly IParticipantService participantService;
+        this.participantService = participantService;
+        this.hubContext = hubContext;
+    }
 
-        public ParticipantController(IParticipantService participantService)
-        {
-            this.participantService = participantService;
-        }
+    private int GetUserId()
+        => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-        private int GetUserId()
-        {
-            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        }
+    [HttpPost("{chatId}/join")]
+    public async Task<IActionResult> JoinChat(int chatId)
+    {
+        var dto = await participantService.JoinChatAsync(GetUserId(), chatId);
 
-        [HttpPost("{chatId}/join")]
-        public async Task<IActionResult> JoinChat(int chatId)
-        {
-            await participantService.JoinChatAsync(GetUserId(), chatId);
-            return Ok();
-        }
+        await hubContext.Clients.Group(chatId.ToString())
+            .SendAsync("UserJoined", dto);
 
-        [HttpDelete("{chatId}/leave")]
-        public async Task<IActionResult> LeaveChat(int chatId)
-        {
-            await participantService.LeaveChatAsync(GetUserId(), chatId);
-            return Ok();
-        }
+        return Ok(dto);
+    }
+
+    [HttpDelete("{chatId}/leave")]
+    public async Task<IActionResult> LeaveChat(int chatId)
+    {
+        var dto = await participantService.LeaveChatAsync(GetUserId(), chatId);
+
+        await hubContext.Clients.Group(chatId.ToString())
+            .SendAsync("UserLeft", dto);
+
+        return Ok(dto);
     }
 }

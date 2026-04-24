@@ -1,6 +1,4 @@
 ﻿namespace RealTimeWebChat.Presentation.Response.Participant
 {
-    public class UserJoinedChatDto
-    {
-    }
+    public record class UserJoinedChatDto(string userName, int userId, int chatId);
 }
