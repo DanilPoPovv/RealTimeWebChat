@@ -1,4 +1,4 @@
 ﻿namespace RealTimeWebChat.Presentation.Requests.Login
 {
-    public record LoginRequest(string Name, string Password);
+    public record LoginRequest(string Login, string Password);
 }

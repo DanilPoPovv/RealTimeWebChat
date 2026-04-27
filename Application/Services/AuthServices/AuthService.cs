@@ -22,7 +22,7 @@ namespace RealTimeWebChat.Application.Services.AuthServices
 
         public async Task<string> LoginAsync(LoginRequest request)
         {
-            var user = await userRepository.GetByNameAsync(request.Name);
+            var user = await userRepository.GetByNameAsync(request.Login);
 
             if (user == null)
                 throw new Exception("User not found");
