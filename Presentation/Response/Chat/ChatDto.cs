@@ -1,5 +1,5 @@
 ﻿namespace RealTimeWebChat.Presentation.Response.Chat
 {
-    public record class ChatDto(int chatId, string chatName);
+    public record class ChatDto(int Id, string Name);
 }
 
