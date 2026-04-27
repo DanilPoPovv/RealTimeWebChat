@@ -65,6 +65,14 @@ public class ChatService : IChatService
         await chatRepository.DeleteChatAsync(chat);
     }
 
+    public async Task<List<ChatDto>> GetAllUserChats(int userId)
+    {
+        var userChat = await chatRepository.GetAllUserChatById(userId);
+        return userChat.Select(x => new ChatDto
+        (x.Id, x.Name)
+        ).ToList();
+    }
+
     public async Task<GetChatResponse> GetChatAsync(int userId, GetChatRequest request)
     {
         var chat = await chatRepository.GetChatByIdAsync(request.Id);

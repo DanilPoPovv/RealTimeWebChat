@@ -8,5 +8,6 @@ namespace RealTimeWebChat.Application.Services.ChatServices
         public Task DeleteChatAsync(Chat chat);
         public Task<Chat> GetChatByIdAsync(int id);
         public Task UpdateAsync();
+        public Task<List<Chat>> GetAllUserChatById(int userId);
     }
 }

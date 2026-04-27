@@ -64,5 +64,10 @@ namespace RealTimeWebChat.Presentation.Controllers
             await chatService.DeleteChatAsync(GetUserId(), request);
             return NoContent();
         }
+        [HttpGet]
+        public async Task<List<ChatDto>> GetAllUserChats()
+        {
+            return await chatService.GetAllUserChats(GetUserId());
+        }
     }
 }

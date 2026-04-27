@@ -47,5 +47,6 @@ namespace RealTimeWebChat.Presentation.Controllers
             var result = await _userService.UpdateUserAsync(request);
             return Ok(result);
         }
+
     }
 }

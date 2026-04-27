@@ -20,6 +20,15 @@ namespace RealTimeWebChat.Infrastructure.Repositories
             dbContext.Remove(chat);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<List<Chat>> GetAllUserChatById(int userId)
+        {
+            return await dbContext.Participants
+                .Where(p => p.UserId == userId)
+                .Select(p => p.Chat)
+                .ToListAsync();
+        }
+
         public async Task<Chat> GetChatByIdAsync(int id)
         {
             return await dbContext.Chats.FirstOrDefaultAsync(u => u.Id == id);
