@@ -40,7 +40,7 @@ namespace RealTimeWebChat.Presentation.Controllers
         [HttpGet("chat/{chatId}")]
         public async Task<ActionResult<List<MessageReceivedEventDto>>> GetMessages(
             int chatId,
-            [FromQuery] int messageCount,
+            [FromQuery] int messageCount = 100,
             [FromQuery] int pageCount = 0)
         {
             var result = await messageService
