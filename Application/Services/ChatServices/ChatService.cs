@@ -113,6 +113,16 @@ public class ChatService : IChatService
         };
     }
 
+    public async Task<List<ChatDto>> SearchChatAsync(string chatName)
+    {
+        if (string.IsNullOrWhiteSpace(chatName))
+            return null;
+
+        var chats = await chatRepository.SearchChatAsync(chatName);
+        return chats.Select(c => new ChatDto
+        (c.Id, c.Name)).ToList();
+    }
+
     public async Task<UpdateChatResponse> UpdateChatAsync(int userId, UpdateChatRequest request)
     {
         var chat = await chatRepository.GetChatByIdAsync(request.Id);

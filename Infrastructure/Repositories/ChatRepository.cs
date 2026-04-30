@@ -34,6 +34,11 @@ namespace RealTimeWebChat.Infrastructure.Repositories
             return await dbContext.Chats.FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task<List<Chat>> SearchChatAsync(string chatName)
+        {
+            return await dbContext.Chats.Where(c => c.Name.Contains(chatName)).ToListAsync();
+        }
+
         public async Task UpdateAsync()
         {
             await dbContext.SaveChangesAsync();

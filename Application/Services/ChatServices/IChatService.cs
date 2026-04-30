@@ -11,4 +11,5 @@ public interface IChatService
 
     Task<UpdateChatResponse> UpdateChatAsync(int userId, UpdateChatRequest request);
     Task<List<ChatDto>> GetAllUserChats(int userId);
+    Task<List<ChatDto>> SearchChatAsync(string chatName);
 }

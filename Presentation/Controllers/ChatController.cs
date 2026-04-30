@@ -64,10 +64,15 @@ namespace RealTimeWebChat.Presentation.Controllers
             await chatService.DeleteChatAsync(GetUserId(), request);
             return NoContent();
         }
-        [HttpGet]
+        [HttpGet("GetChatUser")]
         public async Task<List<ChatDto>> GetAllUserChats()
         {
             return await chatService.GetAllUserChats(GetUserId());
+        }
+        [HttpGet("SearchChat")]
+        public async Task<List<ChatDto>> SearchChat(string chatName)
+        {
+            return await chatService.SearchChatAsync(chatName);
         }
     }
 }

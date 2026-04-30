@@ -9,5 +9,6 @@ namespace RealTimeWebChat.Application.Services.ChatServices
         public Task<Chat> GetChatByIdAsync(int id);
         public Task UpdateAsync();
         public Task<List<Chat>> GetAllUserChatById(int userId);
+        public Task<List<Chat>> SearchChatAsync(string chatName);
     }
 }
