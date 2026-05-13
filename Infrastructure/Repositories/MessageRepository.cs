@@ -28,7 +28,7 @@ namespace RealTimeWebChat.Infrastructure.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Message>> GetLastChatMessagesAsync(int chatId, int messageCount, int pageCount = 0)
+        public async Task<List<Message>> GetChatMessagesAsync(int chatId, int messageCount, int pageCount = 0)
         {
             return await dbContext.Messages
                 .Where(m => m.ChatId == chatId)
@@ -43,6 +43,30 @@ namespace RealTimeWebChat.Infrastructure.Repositories
         public async Task UpdateMessageAsync()
         {
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Message>> GetChatMessagesAsync(
+            int chatId,
+            int limit,
+            int? beforeMessageId = null)
+        {
+            var query = dbContext.Messages
+                .Include(m => m.User)
+                .Where(m => m.ChatId == chatId);
+
+            if (beforeMessageId.HasValue)
+            {
+                query = query.Where(m => m.Id < beforeMessageId.Value);
+            }
+
+            var messages = await query
+                .OrderByDescending(m => m.Id)
+                .Take(limit)
+                .ToListAsync();
+
+            return messages
+                .OrderBy(m => m.Id)
+                .ToList();
         }
     }
 }

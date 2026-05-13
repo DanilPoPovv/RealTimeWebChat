@@ -9,5 +9,5 @@ public interface IMessageService
 
     Task<MessageDeleteEventDto> DeleteMessageAsync(int userId, DeleteMessageRequest request);
 
-    Task<List<MessageReceivedEventDto>> GetLastChatMessagesAsync(int userId, int chatId, int messageCount, int pageCount);
+    Task<List<MessageReceivedEventDto>> GetChatMessageAsync(int userId, int chatId, int limit, int? beforeMessageId);
 }

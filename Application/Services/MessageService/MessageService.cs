@@ -110,11 +110,11 @@ public class MessageService : IMessageService
 
     }
 
-    public async Task<List<MessageReceivedEventDto>> GetLastChatMessagesAsync(
+    public async Task<List<MessageReceivedEventDto>> GetChatMessageAsync(
         int userId,
         int chatId,
-        int messageCount,
-        int pageCount)
+        int limit,
+        int? beforeMessageId)
     {
         var participant = await participantRepository.GetParticipantAsync(chatId, userId);
 
@@ -122,7 +122,7 @@ public class MessageService : IMessageService
             throw new Exception("Access denied");
 
         var messages = await messageRepository
-            .GetLastChatMessagesAsync(chatId, messageCount, pageCount);
+            .GetChatMessagesAsync(chatId, limit, beforeMessageId);
 
         return messages.Select(m => new MessageReceivedEventDto
         {

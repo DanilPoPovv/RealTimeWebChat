@@ -90,7 +90,7 @@ public class ChatService : IChatService
         if (request.LastMessages != null)
         {
             var dbMessages = await messageRepository
-                .GetLastChatMessagesAsync(chat.Id, request.LastMessages.Value);
+                .GetChatMessagesAsync(chat.Id, request.LastMessages.Value, null);
 
             messages = dbMessages.Select(m => new MessageReceivedEventDto
             {
