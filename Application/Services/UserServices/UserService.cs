@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RealTimeWebChat.Helpers;
 using RealTimeWebChat.Presentation.Requests;
 using RealTimeWebChat.Presentation.Requests.User;
+using RealTimeWebChat.Presentation.Response.User;
 using RealTimeWebChat.Presentation.Responses.User;
 
 namespace RealTimeWebChat.Application.Services.UserServices
@@ -9,10 +11,12 @@ namespace RealTimeWebChat.Application.Services.UserServices
     {
         private readonly IUserRepository userRepository;
         private readonly IPasswordHasher<User> passwordHasher;
-        public UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher)
+        private readonly IWebHostEnvironment _environment;
+        public UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher, IWebHostEnvironment environment)
         {
             this.userRepository = userRepository;
             this.passwordHasher = passwordHasher;
+            _environment = environment;
         }
         public async Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request)
         {
@@ -74,6 +78,48 @@ namespace RealTimeWebChat.Application.Services.UserServices
             {
                 Id = user.Id,
                 Name = user.Name,
+            };
+        }
+
+        public async Task<AvatarUploadEvent> UploadAvatar(IFormFile avatar, int userId)
+        {
+            if (avatar == null || avatar.Length == 0)
+                throw new ArgumentException("Файл пуст");
+            if(!AvatarTypeHelper.IsAllowedMimeType(avatar.ContentType))
+                throw new ArgumentException("Недопустимый MIME тип");
+
+            var fileExtension = Path.GetExtension(avatar.FileName).ToLowerInvariant();
+            if (!AvatarTypeHelper.IsAllowedExtensions(fileExtension))
+                throw new ArgumentException("Недопустимый расширение файла");
+
+            var uploadsPath = Path.Combine(
+                _environment.WebRootPath,
+                "uploads",
+                "avatars");
+
+            Directory.CreateDirectory(uploadsPath);
+
+            var fileName = $"{Guid.NewGuid()}{fileExtension}";
+
+            var filePath = Path.Combine(uploadsPath, fileName);
+
+            using var stream = new FileStream(filePath, FileMode.Create);
+
+            await avatar.CopyToAsync(stream);
+
+            var avatarUrl = $"/uploads/avatars/{fileName}";
+
+            var user = await userRepository.GetByIdAsync(userId);
+            if (user == null)
+                throw new Exception("User not found");
+            user.AvatarUrl = avatarUrl;
+
+            await userRepository.SaveChangesAsync();
+
+            return new AvatarUploadEvent
+            {
+                AvatarUrl = avatarUrl,
+                UserId = userId
             };
         }
     }

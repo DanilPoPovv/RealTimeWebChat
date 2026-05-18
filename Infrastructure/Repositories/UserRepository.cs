@@ -43,5 +43,6 @@ namespace RealTimeWebChat.Infrastructure.Repositories
             return await dbContext.Users.
             FirstOrDefaultAsync(u => u.Id == id);
         }
+
     }
 }

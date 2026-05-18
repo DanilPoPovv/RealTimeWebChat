@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="Presentation\Sockets\" />
     <Folder Include="Jwt\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using RealTimeWebChat.Presentation.Requests;
 using RealTimeWebChat.Presentation.Requests.User;
+using RealTimeWebChat.Presentation.Response.User;
 using RealTimeWebChat.Presentation.Responses.User;
 
 namespace RealTimeWebChat.Application.Services.UserServices
@@ -13,5 +14,6 @@ namespace RealTimeWebChat.Application.Services.UserServices
         public Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest request);
 
         public Task<GetUserResponse> GetUserByNameAsync(GetUserRequest request);
+        public Task<AvatarUploadEvent> UploadAvatar(IFormFile avatar, int userId);
     }
 }

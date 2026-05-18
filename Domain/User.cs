@@ -5,4 +5,5 @@
     public string PasswordHash { get; set; }
     public bool IsDeleted { get; set; }
     public List<ChatParticipant> Chats { get; set; }
+    public string? AvatarUrl { get; set; }
 }

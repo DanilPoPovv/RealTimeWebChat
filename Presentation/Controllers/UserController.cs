@@ -2,6 +2,7 @@
 using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Presentation.Requests;
 using RealTimeWebChat.Presentation.Requests.User;
+using System.Security.Claims;
 
 namespace RealTimeWebChat.Presentation.Controllers
 {
@@ -11,6 +12,10 @@ namespace RealTimeWebChat.Presentation.Controllers
     {
         private readonly IUserService _userService;
 
+        private int GetUserId()
+        {
+            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        }
         public UserController(IUserService userService)
         {
             _userService = userService;
@@ -45,6 +50,12 @@ namespace RealTimeWebChat.Presentation.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
         {
             var result = await _userService.UpdateUserAsync(request);
+            return Ok(result);
+        }
+        [HttpPost("avatar")]
+        public async Task<IActionResult> UploadAvatar(IFormFile avatar)
+        {
+            var result = await _userService.UploadAvatar(avatar, GetUserId());
             return Ok(result);
         }
 
