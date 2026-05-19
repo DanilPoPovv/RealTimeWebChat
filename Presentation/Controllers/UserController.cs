@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using RealTimeWebChat.Application.Services.UserServices;
+using RealTimeWebChat.Infrastructure.SignalR;
 using RealTimeWebChat.Presentation.Requests;
 using RealTimeWebChat.Presentation.Requests.User;
 using System.Security.Claims;
@@ -11,14 +13,18 @@ namespace RealTimeWebChat.Presentation.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IHubContext<ChatHub> hubContext;
 
+       
         private int GetUserId()
         {
             return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         }
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,
+                              IHubContext<ChatHub> hubContext)
         {
             _userService = userService;
+            this.hubContext = hubContext;
         }
 
         [HttpPost]
@@ -56,6 +62,7 @@ namespace RealTimeWebChat.Presentation.Controllers
         public async Task<IActionResult> UploadAvatar(IFormFile avatar)
         {
             var result = await _userService.UploadAvatar(avatar, GetUserId());
+            await hubContext.Clients.Group(result.UserId.ToString()).SendAsync("AvatarUploaded", result);
             return Ok(result);
         }
 
