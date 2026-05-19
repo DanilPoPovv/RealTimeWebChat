@@ -34,12 +34,10 @@ namespace RealTimeWebChat.Presentation.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var result = await _userService.GetUserByNameAsync(
-                new GetUserRequest { UserName = name });
-
+            var result = await _userService.GetUserById(id);
             return Ok(result);
         }
 

@@ -33,7 +33,6 @@ namespace RealTimeWebChat.Infrastructure.Repositories
             return await dbContext.Users.
                 FirstOrDefaultAsync(u => u.Name == userName);
         }
-
         public async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();

@@ -44,13 +44,14 @@ namespace RealTimeWebChat.Application.Services.UserServices
             await userRepository.SoftDeleteAsync(request.Id);
         }
 
-        public async Task<GetUserResponse> GetUserByNameAsync(GetUserRequest request)
+        public async Task<UserDto> GetUserById(int userId)
         {
-            var user = await userRepository.GetByNameAsync(request.UserName);
+            var user = await userRepository.GetByIdAsync(userId);
             if (user == null)
                 throw new Exception("User not found");
-            return new GetUserResponse()
+            return new UserDto
             {
+                AvatarUrl = user.AvatarUrl,
                 Id = user.Id,
                 Name = user.Name
             };

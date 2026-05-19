@@ -1,8 +1,9 @@
-﻿namespace RealTimeWebChat.Presentation.Responses.User
+﻿using RealTimeWebChat.Presentation.Response.User;
+
+namespace RealTimeWebChat.Presentation.Responses.User
 {
     public class GetUserResponse
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public UserDto UserDto { get; set; }
     }
 }

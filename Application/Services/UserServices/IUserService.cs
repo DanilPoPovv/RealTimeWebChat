@@ -13,7 +13,7 @@ namespace RealTimeWebChat.Application.Services.UserServices
 
         public Task<UpdateUserResponse> UpdateUserAsync(UpdateUserRequest request);
 
-        public Task<GetUserResponse> GetUserByNameAsync(GetUserRequest request);
+        public Task<UserDto> GetUserById(int userId);
         public Task<AvatarUploadEvent> UploadAvatar(IFormFile avatar, int userId);
     }
 }
