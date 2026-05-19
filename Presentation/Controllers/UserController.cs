@@ -40,7 +40,12 @@ namespace RealTimeWebChat.Presentation.Controllers
             var result = await _userService.GetUserById(id);
             return Ok(result);
         }
-
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMe()
+        {
+            var result = await _userService.GetUserById(GetUserId());
+            return Ok(result);
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
