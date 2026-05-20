@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RealTimeWebChat.Application.Services.AuthServices;
+using RealTimeWebChat.Application.Services.AuthService;
 using RealTimeWebChat.Presentation.Requests.Login;
 
 [ApiController]
@@ -16,9 +16,9 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var token = await _authService.LoginAsync(request);
+        var loginResponse = await _authService.LoginAsync(request);
 
-        return Ok(new { token });
+        return Ok(loginResponse);
     }
 }
 

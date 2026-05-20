@@ -8,8 +8,8 @@ using RealTimeWebChat.Application.Services.ChatServices;
 using RealTimeWebChat.Infrastructure.Extensions;
 using RealTimeWebChat.Application.Services.AuthServices;
 using RealTimeWebChat.Application.Services.Participant;
-using Microsoft.AspNetCore.Builder;
 using RealTimeWebChat.Infrastructure.SignalR;
+using RealTimeWebChat.Application.Services.AuthService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +56,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles("");
 app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseAuthentication();

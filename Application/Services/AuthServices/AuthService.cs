@@ -1,41 +1,50 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RealTimeWebChat.Application.Services.AuthService;
+using RealTimeWebChat.Application.Services.AuthServices;
 using RealTimeWebChat.Application.Services.UserServices;
 using RealTimeWebChat.Presentation.Requests.Login;
+using RealTimeWebChat.Presentation.Response.Auth;
+using RealTimeWebChat.Presentation.Response.User;
 
-namespace RealTimeWebChat.Application.Services.AuthServices
+public class AuthService : IAuthService
 {
-    public class AuthService : IAuthService
+    private readonly IUserRepository userRepository;
+    private readonly IPasswordHasher<User> passwordHasher;
+    private readonly IJwtService jwtService;
+
+    public AuthService(
+        IUserRepository userRepository,
+        IPasswordHasher<User> passwordHasher,
+        IJwtService jwtService)
     {
-        private readonly IUserRepository userRepository;
-        private readonly IJwtService jwtService;
-        private readonly IPasswordHasher<User> passwordHasher;
+        this.userRepository = userRepository;
+        this.passwordHasher = passwordHasher;
+        this.jwtService = jwtService;
+    }
 
-        public AuthService(
-            IUserRepository userRepository,
-            IJwtService jwtService,
-            IPasswordHasher<User> passwordHasher)
-        {
-            this.userRepository = userRepository;
-            this.jwtService = jwtService;
-            this.passwordHasher = passwordHasher;
-        }
+    public async Task<LoginResponse> LoginAsync(LoginRequest request)
+    {
+        var user = await userRepository.GetByNameAsync(request.Login);
 
-        public async Task<string> LoginAsync(LoginRequest request)
-        {
-            var user = await userRepository.GetByNameAsync(request.Login);
+        if (user == null)
+            throw new Exception("User not found");
 
-            if (user == null)
-                throw new Exception("User not found");
+        var result = passwordHasher.VerifyHashedPassword(
+            user,
+            user.PasswordHash,
+            request.Password);
 
-            var result = passwordHasher.VerifyHashedPassword(
-                user,
-                user.PasswordHash,
-                request.Password);
+        if (result != PasswordVerificationResult.Success)
+            throw new Exception("Invalid password");
 
-            if (result == PasswordVerificationResult.Failed)
-                throw new Exception("Invalid password");
-
-            return jwtService.GenerateToken(user);
-        }
+        var token = jwtService.GenerateToken(user);
+        return new LoginResponse(
+            token = token,
+            new UserDto
+            {
+                AvatarUrl = user.AvatarUrl,
+                Id = user.Id,
+                Name = user.Name
+            });
     }
 }
